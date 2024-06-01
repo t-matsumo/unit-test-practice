@@ -45,6 +45,6 @@ private class DataStoreMock: DataStore {
 
     override fun save(data: Data) {
         // 必要なものだけを実装する
-        error("今回のテストでは使わないので未実装")
+        error("今回のテストでは使わないので実装しない")
     }
 }

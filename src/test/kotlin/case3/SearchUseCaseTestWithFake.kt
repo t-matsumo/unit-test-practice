@@ -31,6 +31,8 @@ class SearchUseCaseTestWithFake {
         val actualData = testTarget.search(query)
 
         // 結果を確認する。
+        // DataStoreFakeが疑似的に実装されているので、
+        // DataStoreFakeを用いてDataStoreのインターフェースが要求する仕様通りに検索できる。
         // 「queryがDataStoreへ渡されたこと」と「DataStoreから受け取ったデータを使っていること」の確認は不要になる。
         val expectedData = List(3) { Data(Data.Tag("tag_2"), "expected content_${it}") }
         assertEquals(expectedData, actualData)
@@ -43,8 +45,10 @@ private class DataStoreFake: DataStore {
     private val dataSource: MutableMap<DataStore.Query, List<Data>> = hashMapOf()
 
     // queryが一つではなく複数の場合でも、工夫すればHashMapのようなCollectionに保持できるはず。
+    // DataStoreインターフェースが要求する仕様通りに実装できていない場合は、妥当なユニットテストにならない可能性がある。
+    // 本番の実装と同じユニットテストをDataStoreFakeにも実施するほうが良い。
     override fun searchBy(query: DataStore.Query): List<Data> {
-        // DataStoreインターフェースが、ソートやバリデーションのような追加処理を要求する場合は、忘れずに実装する
+        // DataStoreインターフェースがソートやバリデーションのような追加処理を要求する場合は、忘れずに実装する
         return dataSource[query]?.sortedBy { it.content } ?: emptyList()
     }
 

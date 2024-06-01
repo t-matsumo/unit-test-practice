@@ -11,15 +11,15 @@ class SearchUseCaseTestWithFake {
     @BeforeTest
     fun setUp() {
         dataStoreFake = DataStoreFake()
+        // テスト用データを準備する。
+        // DataStoreFakeは疑似的に実装されているので、DataStoreインターフェースに用意されているメソッドを使う。
+        dataStoreFake.save(Data("expected content"))
+
         testTarget = SearchUseCase(dataStoreFake)
     }
 
     @Test
     fun testSearch() {
-        // テスト用データを準備する。
-        // DataStoreFakeは疑似的に実装されているので、DataStoreインターフェースに用意されているメソッドを使う。
-        dataStoreFake.save(Data("expected content"))
-
         // テスト対象のメソッドを呼び出す
         val actualData = testTarget.search()
 

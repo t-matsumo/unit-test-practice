@@ -7,7 +7,7 @@ interface DataStore {
     fun save(data: Data)
 }
 
-// Case2：UseCase内が依存先クラスの処理結果を使う場合
+// Case2：UseCaseが依存先クラスの処理結果を使う場合
 class SearchUseCase(
     private val dataStore: DataStore
 ) {
